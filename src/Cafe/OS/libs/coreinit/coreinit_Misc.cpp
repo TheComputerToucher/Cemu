@@ -482,6 +482,12 @@ namespace coreinit
 		return 0;
 	}
 
+	uint32 OSLaunchTitlel(uint64 titleId, uint32 argc)
+	{
+		__LaunchByTitleId(titleId, 0, nullptr);
+		return 0;
+	}
+
 	uint32 OSRestartGame(uint32 argc, MEMPTR<char>* argv)
 	{
 		__LaunchByTitleId(CafeSystem::GetForegroundTitleId(), argc, argv);
@@ -579,6 +585,7 @@ namespace coreinit
 		cafeExportRegister("coreinit", OSEnableHomeButtonMenu, LogType::CoreinitThread);
 
 		cafeExportRegister("coreinit", OSLaunchTitleByPathl, LogType::Placeholder);
+		cafeExportRegister("coreinit", OSLaunchTitlel, LogType::Placeholder);
 		cafeExportRegister("coreinit", OSRestartGame, LogType::Placeholder);
 
 		cafeExportRegister("coreinit", OSReleaseForeground, LogType::Placeholder);

@@ -451,6 +451,26 @@ void sysappExport__SYSLaunchMiiStudio(PPCInterpreter_t* hCPU)
 	_SYSLaunchMiiStudio(args);
 }
 
+void __LaunchHomeMenu(uint32 platformRegion) {
+	uint64 titleIdToLaunch = _SYSGetSystemApplicationTitleIdByProdArea(0, platformRegion);
+	uint32 first = 0x00050010;
+	uint32 second = (titleIdToLaunch >> 64); // && 0xFFFFFFFF;
+	std::string path = std::format("/vol/storage_mlc01/sys/title/{:08x}/{:08x}", first, second);
+	cemuLog_log(LogType::Force, std::format("Menu title path: {}, first {:x}, second {:x}", path, first, second));
+	
+	coreinit::__OSClearCopyData();
+	_SYSAppendCallerInfo();
+	coreinit::OSLaunchTitleByPathl(path.c_str(), path.length(), 0);
+}
+
+void _SYSLaunchMenu() {
+	__LaunchHomeMenu((uint32)CafeSystem::GetPlatformRegion());
+}
+
+void sysappExport__SYSLaunchMenu(PPCInterpreter_t* hCPU) {
+	_SYSLaunchMenu();
+}
+
 void sysappExport__SYSReturnToCallerWithStandardResult(PPCInterpreter_t* hCPU)
 {
 	ppcDefineParamU32BEPtr(resultPtr, 0);
@@ -674,6 +694,7 @@ namespace sysapp
 void sysapp_load()
 {
 	osLib_addFunction("sysapp", "_SYSLaunchMiiStudio", sysappExport__SYSLaunchMiiStudio);
+	osLib_addFunction("sysapp", "SYSLaunchMenu", sysappExport__SYSLaunchMenu); // MENUUUUU
 	osLib_addFunction("sysapp", "_SYSGetMiiStudioArgs", sysappExport__SYSGetMiiStudioArgs);
 	osLib_addFunction("sysapp", "_SYSGetSettingsArgs", sysappExport__SYSGetSettingsArgs);
 	osLib_addFunction("sysapp", "_SYSReturnToCallerWithStandardResult", sysappExport__SYSReturnToCallerWithStandardResult);
