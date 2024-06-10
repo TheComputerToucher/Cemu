@@ -52,5 +52,8 @@ bin/gameProfiles/*
 
 bin/graphicPacks/*
 
+bin/resources/*
+bin/sharedFonts/*
+
 # Ignore Finder view option files created by OS X
 .DS_Store

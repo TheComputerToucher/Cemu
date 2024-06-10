@@ -7,6 +7,7 @@ namespace coreinit
 	uint64 OSGetTitleID();
 	uint32 __OSGetProcessSDKVersion();
 	uint32 OSLaunchTitleByPathl(const char* path, uint32 pathLength, uint32 argc);
+	uint32 OSLaunchTitlel(uint64 titleId, uint32 argc);
 	uint32 OSRestartGame(uint32 argc, MEMPTR<char>* argv);
 
 	void OSReleaseForeground();

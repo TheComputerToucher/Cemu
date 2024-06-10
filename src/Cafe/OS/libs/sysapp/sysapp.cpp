@@ -437,11 +437,13 @@ void __LaunchMiiMaker(sysMiiStudioArguments_t* args, uint32 platformRegion)
 	}
 	_SYSAppendCallerInfo();
 	uint64 titleIdToLaunch = _SYSGetSystemApplicationTitleIdByProdArea(4, platformRegion);
-	cemu_assert_unimplemented();
+	
+	coreinit::OSLaunchTitlel(titleIdToLaunch, 0x80);
 }
 
 void _SYSLaunchMiiStudio(sysMiiStudioArguments_t* args)
 {
+	args = nullptr; // REMOVE LATER
 	__LaunchMiiMaker(args, (uint32)CafeSystem::GetPlatformRegion());
 }
 
@@ -453,14 +455,14 @@ void sysappExport__SYSLaunchMiiStudio(PPCInterpreter_t* hCPU)
 
 void __LaunchHomeMenu(uint32 platformRegion) {
 	uint64 titleIdToLaunch = _SYSGetSystemApplicationTitleIdByProdArea(0, platformRegion);
-	uint32 first = 0x00050010;
+	/* uint32 first = 0x00050010;
 	uint32 second = (titleIdToLaunch >> 64); // && 0xFFFFFFFF;
 	std::string path = std::format("/vol/storage_mlc01/sys/title/{:08x}/{:08x}", first, second);
-	cemuLog_log(LogType::Force, std::format("Menu title path: {}, first {:x}, second {:x}", path, first, second));
+	cemuLog_log(LogType::Force, std::format("Menu title path: {}, first {:x}, second {:x}", path, first, second));*/
 	
 	coreinit::__OSClearCopyData();
 	_SYSAppendCallerInfo();
-	coreinit::OSLaunchTitleByPathl(path.c_str(), path.length(), 0);
+	coreinit::OSLaunchTitlel(titleIdToLaunch, 0);
 }
 
 void _SYSLaunchMenu() {
@@ -694,6 +696,7 @@ namespace sysapp
 void sysapp_load()
 {
 	osLib_addFunction("sysapp", "_SYSLaunchMiiStudio", sysappExport__SYSLaunchMiiStudio);
+	osLib_addFunction("sysapp", "_SYSLaunchMiiStudioDirect", sysappExport__SYSLaunchMiiStudio);
 	osLib_addFunction("sysapp", "SYSLaunchMenu", sysappExport__SYSLaunchMenu); // MENUUUUU
 	osLib_addFunction("sysapp", "_SYSGetMiiStudioArgs", sysappExport__SYSGetMiiStudioArgs);
 	osLib_addFunction("sysapp", "_SYSGetSettingsArgs", sysappExport__SYSGetSettingsArgs);
