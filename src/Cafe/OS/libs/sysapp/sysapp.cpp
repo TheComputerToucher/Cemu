@@ -698,6 +698,7 @@ void sysapp_load()
 	osLib_addFunction("sysapp", "_SYSLaunchMiiStudio", sysappExport__SYSLaunchMiiStudio);
 	osLib_addFunction("sysapp", "_SYSLaunchMiiStudioDirect", sysappExport__SYSLaunchMiiStudio);
 	osLib_addFunction("sysapp", "SYSLaunchMenu", sysappExport__SYSLaunchMenu); // MENUUUUU
+	osLib_addFunction("sysapp", "_SYSLaunchMenuWithCheckingAccount", sysappExport__SYSLaunchMenu)
 	osLib_addFunction("sysapp", "_SYSGetMiiStudioArgs", sysappExport__SYSGetMiiStudioArgs);
 	osLib_addFunction("sysapp", "_SYSGetSettingsArgs", sysappExport__SYSGetSettingsArgs);
 	osLib_addFunction("sysapp", "_SYSReturnToCallerWithStandardResult", sysappExport__SYSReturnToCallerWithStandardResult);
